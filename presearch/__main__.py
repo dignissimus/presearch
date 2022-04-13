@@ -10,7 +10,8 @@ import termcolor
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Syntactically query python source code"
+        description="Syntactically query python source code",
+        prog="presearch"
     )
 
     parser.add_argument(
