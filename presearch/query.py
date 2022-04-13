@@ -1,7 +1,8 @@
 import enum
 import ast
 
-from crawler import ModuleCrawler
+from .crawler import ModuleCrawler
+from .tree import PresearchTransformer
 
 
 class QueryType(enum.Enum):
@@ -48,12 +49,22 @@ class QueryResult:
         self.outcomes = []
         self.failures = []
         self.query = query
+        self.transformer = PresearchTransformer()
 
     def match(self, n):
         """Returns the nth match of the query"""
         # TODO: Consider a better way of doing this
         # Perhaps the repeated computations could become computationally expensive
         return list(self.matches)[n]
+
+    @property
+    def match_paths(self):
+        return list(
+            map(
+                lambda outcome: outcome.path,
+                filter(lambda outcome: outcome.data, self.outcomes),
+            )
+        )
 
     @property
     def matches(self):
@@ -67,6 +78,7 @@ class QueryResult:
         self.failures.append(path)
 
     def add_module(self, tree, path):
+        tree = self.transformer.visit(tree)
         self.outcomes += self.query.process(tree, path)
 
     def process(self, code, path):

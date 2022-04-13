@@ -1,6 +1,6 @@
 import ast
 import os
-from query import QueryResult
+from .query import QueryResult
 
 
 def presearch(directory_name, query):
