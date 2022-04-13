@@ -21,7 +21,7 @@ options:
 ```
 
 # Examples
-## Finding files that import the `ast`
+## Finding files that import the `ast` library
 The following query matches files that import the `ast` library
 ```python
 from presearch.query import MatchQuery
