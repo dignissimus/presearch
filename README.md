@@ -1,2 +1,2 @@
 # presearch
-A python program to query programs via syntax
+A python program to query scripts via syntax
