@@ -7,7 +7,7 @@ class TreeCrawler:
 
     @staticmethod
     def crawl_function(module):
-        raise Exception("No crawl fucntion provided") 
+        raise Exception("No crawl function provided")
 
 
 class ModuleCrawler(TreeCrawler):
@@ -15,8 +15,8 @@ class ModuleCrawler(TreeCrawler):
     def crawl_function(module):
         return [module]
 
+
 class RecursiveCrawler(TreeCrawler):
     @staticmethod
     def crawl_function(module):
         raise NotImplementedError()
-
