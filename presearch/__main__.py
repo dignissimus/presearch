@@ -10,15 +10,14 @@ import termcolor
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Syntactically query python source code",
-        prog="presearch"
+        description="Syntactically query python source code", prog="presearch"
     )
 
     parser.add_argument(
         "directory",
         type=str,
         default=".",
-        help="The directory to search for scripts",
+        help="The directory containing the source code to query",
     )
     parser.add_argument(
         "--file",
