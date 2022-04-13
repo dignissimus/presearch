@@ -1,5 +1,5 @@
 # presearch
-A python program syntactically query Python source code
+A python program to syntactically query Python source code
 
 # Instalation
 1. Clone the repository by running `git clone https://github.com/dignissimus/presearch`
