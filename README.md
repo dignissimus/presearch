@@ -1,4 +1,4 @@
-# presearch
+# Presearch
 A python program to syntactically query Python source code
 
 # Instalation
