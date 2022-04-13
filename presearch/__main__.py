@@ -4,13 +4,28 @@ import importlib.util
 import presearch
 from .query import MatchQuery
 
+import colorama
+import termcolor
+
 
 def main():
     parser = argparse.ArgumentParser(
         description="Syntactically query python source code"
     )
 
-    parser.add_argument("--file", "-f", type=str, required=True)
+    parser.add_argument(
+        "directory",
+        type=str,
+        default=".",
+        help="The directory to search for scripts",
+    )
+    parser.add_argument(
+        "--file",
+        "-f",
+        type=str,
+        required=True,
+        help="The file containing query to execute",
+    )
 
     args = parser.parse_args()
     spec = importlib.util.spec_from_file_location("pql", args.file)
@@ -23,9 +38,12 @@ def main():
         print("The given file doesn't define a query")
         exit()
 
-    print("Presearching...")
+    print("Running query...")
     result = presearch.presearch(".", query)
-    print(result.match_paths)
+
+    colorama.init()
+    for path in result.match_paths:
+        print(f"File {termcolor.colored(path, 'green')} matches query")
 
 
 if __name__ == "__main__":
