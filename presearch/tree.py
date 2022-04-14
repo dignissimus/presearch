@@ -15,3 +15,20 @@ class PresearchModule(ast.Module):
                     if alias.name == "ast":
                         return True
         return False
+
+    def defines(self, name):
+        for statement in self.body:
+            if isinstance(statement, ast.FunctionDef) or isinstance(
+                statement, ast.AsyncFunctionDef
+            ):
+                if statement.name == name:
+                    return True
+        return False
+
+
+class PresearchClassDef(ast.ClassDef):
+    pass
+
+
+Module = PresearchModule
+ClassDef = PresearchClassDef

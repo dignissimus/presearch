@@ -5,11 +5,6 @@ from .crawler import ModuleCrawler
 from .tree import PresearchTransformer
 
 
-class QueryType(enum.Enum):
-    MATCH = enum.auto()
-    CALCULATE = enum.auto()
-
-
 class QueryOutcome:
     def __init__(self, tree, data, path):
         self.tree = tree
@@ -17,17 +12,25 @@ class QueryOutcome:
         self.path = path
 
 
-class QueryDomain(enum.Enum):
-    MODULE = enum.auto()
-    ALL = enum.auto()
+class Domain:
+    def __init__(self, tree_type=None, constraints=None):
+        if not tree_type:
+            tree_type = ast.AST
+        if constraints is None:
+            constraints = []
+
+        self.tree_type = tree_type
+        self.constraints = constraints
 
 
+# TODO: perhaps remove crawler and make Query barebones
+# Or maybe don't do this and still make Query barebones
+# Or make crawler to a bit more work
 class Query:
-    def __init__(self, query_type, query_function, crawler=None):
+    def __init__(self, query_function, crawler=None):
         if not crawler:
             crawler = ModuleCrawler()
 
-        self.type = query_type
         self.function = query_function
         self.crawler = crawler
 
@@ -40,8 +43,16 @@ class Query:
 
 
 class MatchQuery(Query):
-    def __init__(self, query_function):
-        super(MatchQuery, self).__init__(QueryType.MATCH, query_function)
+    def __init__(self, query_function, **kwargs):
+        super(MatchQuery, self).__init__(query_function, **kwargs)
+
+
+class StatisticalQuery(Query):
+    def __init__(self, query_function, domain=None, **kwargs):
+        if domain is None:
+            domain = None  # TODO
+        self.domain = domain
+        super(StatisticalQuery, self).__init__(query_function, **kwargs)
 
 
 class QueryResult:
