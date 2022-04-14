@@ -9,12 +9,15 @@ class ContainsMethodDefinition(Constraint):
     def __init__(self, name=None):
         self.name = name
 
-    def check(tree):
-        for statement in self.body:
+    def check(self, tree):
+        if not isinstance(tree, (ast.ClassDef)):
+            return False
+
+        for statement in tree.body:
             if isinstance(statement, ast.FunctionDef):
-                if name is None:
+                if self.name is None:
                     return True
-                if name == self.name:
+                if statement.name == self.name:
                     return True
 
         return False

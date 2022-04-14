@@ -20,8 +20,14 @@ class ModuleCrawler(TreeCrawler):
 
 
 class RecursiveCrawler(TreeCrawler):
+    def __init__(self, condition=None):
+        self.condition = condition
+        super(RecursiveCrawler, self).__init__()
+
     @staticmethod
-    def crawl_function(tree):
+    def recursive_crawl(tree):
+        if not isinstance(tree, ast.AST):
+            return []
         expressions = [tree]
         for field in tree._fields:
             sub_expressions = []
@@ -36,6 +42,13 @@ class RecursiveCrawler(TreeCrawler):
                 pass  # Ignore
 
             for expression in sub_expressions:
-                expressions += RecursiveCrawler.crawl_function(expression)
+                expressions += RecursiveCrawler.recursive_crawl(expression)
+
+        return expressions
+
+    def crawl_function(self, tree):
+        expressions = RecursiveCrawler.recursive_crawl(tree)
+        if self.condition is not None:
+            return list(filter(self.condition, expressions))
 
         return expressions

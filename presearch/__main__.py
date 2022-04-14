@@ -5,10 +5,10 @@ import presearch
 from .query import MatchQuery
 
 import colorama
-import termcolor
 
 
 def main():
+    colorama.init()
     parser = argparse.ArgumentParser(
         description="Syntactically query python source code", prog="presearch"
     )
@@ -42,8 +42,7 @@ def main():
     result = presearch.presearch(".", query)
 
     colorama.init()
-    for path in result.match_paths:
-        print(f"File {termcolor.colored(path, 'green')} matches query")
+    result.pprint()
 
 
 if __name__ == "__main__":

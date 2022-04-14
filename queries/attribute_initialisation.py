@@ -1,16 +1,21 @@
 from presearch.query import Domain, StatisticalQuery
 from presearch.constraints import ContainsMethodDefinition
-from presearch.tree import ClassDef
-
-# TODO: rename function
-def query_function(class_def):
-    pass
+from presearch.tree import ClassDef, Self
 
 
-# Sketch, not at all concrete
-# Maybe allow type to take a list as well as an AST type
-# For possible AST types
+def assigns_all_arguments_to_attributes(class_def):
+    init_function = class_def.function("__init__")
+    for argument in init_function.non_self_arguments:
+        if not init_function.contains(Self.attribute(argument.name).assign(argument)):
+            return False
+
+    return True
+
+
+# Calculates the proportion of
 query = StatisticalQuery(
-    query_function,
+    assigns_all_arguments_to_attributes,
     domain=Domain(ClassDef, constraints=[ContainsMethodDefinition("__init__")]),
+    domain_description="classes defining __init__",
+    match_description="classes whose __init__ functions assigned all non-self arguments as attributes",
 )
