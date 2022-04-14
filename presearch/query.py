@@ -1,7 +1,7 @@
 import enum
 import ast
 
-from .crawler import ModuleCrawler
+from .crawler import ModuleCrawler, RecursiveCrawler
 from .tree import PresearchTransformer
 
 
@@ -48,11 +48,11 @@ class MatchQuery(Query):
 
 
 class StatisticalQuery(Query):
-    def __init__(self, query_function, domain=None, **kwargs):
-        if domain is None:
-            domain = None  # TODO
+    def __init__(self, query_function, domain, **kwargs):
         self.domain = domain
-        super(StatisticalQuery, self).__init__(query_function, **kwargs)
+        super(StatisticalQuery, self).__init__(
+            query_function, crawler=RecursiveCrawler(), **kwargs
+        )
 
 
 class QueryResult:
