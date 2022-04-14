@@ -60,7 +60,7 @@ def assigns_all_arguments_to_attributes(class_def):
     return True
 
 
-# Calculates the proportion of
+# Calculates the proportion of class `__init__` definitions assign all their non-self arguments as attributes
 query = StatisticalQuery(
     assigns_all_arguments_to_attributes,
     domain=Domain(ClassDef, constraints=[ContainsMethodDefinition("__init__")]),
