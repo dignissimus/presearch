@@ -32,17 +32,20 @@ def main():
     pql = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(pql)
 
-    try:
-        query = pql.query
-    except AttributeError:
+    if hasattr(pql, "queries"):
+        queries = pql.queries
+        print("Running queries...")
+    elif hasattr(pql, "query"):
+        queries = [pql.quert]
+        print("Running query...")
+    else:
         print("The given file doesn't define a query")
-        exit()
-
-    print("Running query...")
-    result = presearch.presearch(args.directory, query)
+        exit(1)
 
     colorama.init()
-    result.pprint()
+    for query in queries:
+        result = presearch.presearch(args.directory, query)
+        result.pprint()
 
 
 if __name__ == "__main__":

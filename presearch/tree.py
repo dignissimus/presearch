@@ -73,8 +73,12 @@ class PresearchClassDef(ast.ClassDef):
 
 class PresearchFunctionDef(ast.FunctionDef):
     @property
+    def arguments(self):
+        return self.args.posonlyargs + self.args.args + self.args.kwonlyargs
+
+    @property
     def non_self_arguments(self):
-        return self.args.posonlyargs + self.args.args[1:] + self.args.kwonlyargs
+        return self.arguments[1:]
 
     def contains(self, expression):
         if isinstance(expression, ast.Assign):
@@ -92,8 +96,13 @@ class PresearchFunctionDef(ast.FunctionDef):
 
 
 class PresearchName(ast.Name):
+    def __eq__(self, other):
+        if not isinstance(other, ast.Name):
+            return False
+        return self.id == other.id
+
     def assign(self, expression):
-        return ast.Assign(self.store(), expression)
+        return ast.Assign([self.store()], expression)
 
     def store(self):
         return PresearchName(self.id, ast.Store())
@@ -109,8 +118,16 @@ class PresearchArg(ast.arg):
 
 
 class PresearchAttribute(ast.Attribute):
+    def __eq__(self, other):
+        if not isinstance(other, ast.Attribute):
+            return False
+        return self.value == other.value and self.attr == other.attr
+
     def assign(self, expression):
-        return ast.Assign(self.store(), expression)
+        if isinstance(expression, ast.arg):
+            expression = PresearchName(expression.arg, ast.Load())
+
+        return ast.Assign([self.store()], expression)
 
     def store(self):
         return PresearchAttribute(self.value, self.attr, ast.Store())
@@ -120,4 +137,4 @@ Module = PresearchModule
 ClassDef = PresearchClassDef
 Name = PresearchName
 Variable = PresearchName
-Self = PresearchName("self")
+Self = PresearchName("self", ast.Load())
