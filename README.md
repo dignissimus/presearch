@@ -1,9 +1,9 @@
 # Presearch
 A tool to syntactically query Python source code
 
-# Instalation
-1. Clone the repository by running `git clone https://github.com/dignissimus/presearch`
-2. Install the requirements using `pip install -r requirements.txt`
+# Installation
+This project can be installed through pip by running `pip install presearch`
+
 
 # Usage
 Currently the program can be run by executing `python -m presearch`
@@ -69,3 +69,7 @@ query = StatisticalQuery(
     match_description="classes whose __init__ functions assigned all non-self arguments as attributes",
 )
 ```
+# Installing from source
+This project can be installed from the source code
+1. Clone the repository by running `git clone https://github.com/dignissimus/presearch`
+2. Install using `pip install .`
