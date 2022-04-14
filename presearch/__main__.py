@@ -39,7 +39,7 @@ def main():
         exit()
 
     print("Running query...")
-    result = presearch.presearch(".", query)
+    result = presearch.presearch(args.directory, query)
 
     colorama.init()
     result.pprint()
