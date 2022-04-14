@@ -6,7 +6,7 @@ This project can be installed through pip by running `pip install presearch`
 
 
 # Usage
-Currently the program can be run by executing `python -m presearch`
+Once installed, the program can be run by executing `presearch`
 ```bash
 usage: presearch [-h] --file FILE directory
 
