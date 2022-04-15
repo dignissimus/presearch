@@ -1,13 +1,12 @@
 from presearch.query import Domain, StatisticalQuery
 from presearch.constraints import ContainsMethodDefinition
 from presearch.tree import ClassDef, Self
-import ast
 
 
 def assigns_all_arguments_to_attributes(class_def):
     init_function = class_def.function("__init__")
     for argument in init_function.non_self_arguments:
-        if not init_function.contains(Self.attribute(argument.name).assign(argument)):
+        if Self.attribute(argument.name).assign(argument) not in init_function:
             return False
 
     return True
@@ -18,7 +17,7 @@ def assigns_one_or_more_arguments_to_attributes(class_def):
 
     init_function = class_def.function("__init__")
     for argument in init_function.non_self_arguments:
-        if not init_function.contains(Self.attribute(argument.name).assign(argument)):
+        if Self.attribute(argument.name).assign(argument) not in init_function:
             continue
         return True
 
@@ -30,7 +29,7 @@ def assigns_two_or_more_arguments_to_attributes(class_def):
 
     init_function = class_def.function("__init__")
     for argument in init_function.non_self_arguments:
-        if not init_function.contains(Self.attribute(argument.name).assign(argument)):
+        if Self.attribute(argument.name).assign(argument) not in init_function:
             continue
         count += 1
 
@@ -42,7 +41,7 @@ def assigns_three_or_more_arguments_to_attributes(class_def):
 
     init_function = class_def.function("__init__")
     for argument in init_function.non_self_arguments:
-        if not init_function.contains(Self.attribute(argument.name).assign(argument)):
+        if Self.attribute(argument.name).assign(argument) not in init_function:
             continue
         count += 1
 

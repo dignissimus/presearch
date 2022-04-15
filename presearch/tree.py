@@ -94,6 +94,9 @@ class PresearchFunctionDef(ast.FunctionDef):
                     continue
         return False
 
+    def __contains__(self, expression):
+        return self.contains(expression)
+
 
 class PresearchName(ast.Name):
     def __eq__(self, other):
